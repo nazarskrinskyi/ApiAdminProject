@@ -1,5 +1,4 @@
 <?php
-
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -16,11 +15,19 @@ return new class extends Migration
             $table->unsignedBigInteger('movie_id');
             $table->unsignedBigInteger('category_id');
 
-            $table->foreign('movie_id','cm_movie_fk')->on('movies')->references('id');
-            $table->foreign('category_id','cm_category_fk')->on('categories')->references('id');
+            // Add foreign key constraints with onDelete('cascade')
+            $table->foreign('movie_id', 'cm_movie_fk')
+                ->on('movies')
+                ->references('id')
+                ->onDelete('cascade'); // Add this line
 
-            $table->index('movie_id','cm_movie_idx');
-            $table->index('category_id','cm_category_idx');
+            $table->foreign('category_id', 'cm_category_fk')
+                ->on('categories')
+                ->references('id')
+                ->onDelete('cascade'); // Add this line
+
+            $table->index('movie_id', 'cm_movie_idx');
+            $table->index('category_id', 'cm_category_idx');
 
             $table->timestamps();
         });
